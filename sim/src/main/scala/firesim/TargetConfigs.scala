@@ -9,6 +9,7 @@ import boom.system.BoomTilesKey
 import testchipip.{WithBlockDevice, BlockDeviceKey, BlockDeviceConfig}
 import sifive.blocks.devices.uart.{PeripheryUARTKey, UARTParams}
 import icenet._
+import example._
 
 class WithBootROM extends Config((site, here, up) => {
   case BootROMParams => BootROMParams(
@@ -90,6 +91,20 @@ class FireSimRocketChipConfig extends Config(
   new WithPerfCounters ++
   new freechips.rocketchip.system.DefaultConfig)
 
+
+class FireSimMatrixMulConfig extends Config(
+  new WithBootROM ++
+  new WithPeripheryBusFrequency(BigInt(3200000000L)) ++
+  new WithExtMemSize(0x400000000L) ++ // 16GB
+  new WithoutTLMonitors ++
+  new WithUARTKey ++
+  new WithNICKey ++
+  new WithBlockDevice ++
+  new WithRocketL2TLBs(1024) ++
+  new WithPerfCounters ++
+  new example.RoccMatrixMulConfig)
+
+
 class WithNDuplicatedRocketCores(n: Int) extends Config((site, here, up) => {
   case RocketTilesKey => List.tabulate(n)(i => up(RocketTilesKey).head.copy(hartId = i))
 })
@@ -99,6 +114,9 @@ class FireSimRocketChipTracedConfig extends Config(
 
 // single core config
 class FireSimRocketChipSingleCoreConfig extends Config(new FireSimRocketChipConfig)
+
+// single core config
+class FireSimRocketChipMatrixMulConfig extends Config(new FireSimMatrixMulConfig)
 
 class FireSimRocketChipSingleCoreTracedConfig extends Config(
   new WithTraceRocket ++ new FireSimRocketChipSingleCoreConfig)
@@ -210,4 +228,3 @@ class SupernodeFireSimRocketChipOctaCoreConfig extends Config(
   new WithNumNodes(4) ++
   new WithExtMemSize(0x200000000L) ++ // 8GB
   new FireSimRocketChipOctaCoreConfig)
-

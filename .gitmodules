@@ -34,3 +34,6 @@
 [submodule "deploy/workloads/runscripts/gapbs-scripts/gapbs"]
 	path = deploy/workloads/runscripts/gapbs-scripts/gapbs
 	url = https://github.com/sbeamer/gapbs.git
+[submodule "target-design/firechip-msyksphinz"]
+	path = target-design/firechip-msyksphinz
+	url = https://github.com/msyksphinz/firechip
