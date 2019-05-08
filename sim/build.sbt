@@ -21,8 +21,8 @@ def isolateAllTests(tests: Seq[TestDefinition]) = tests map { test =>
 
 testGrouping in Test := isolateAllTests( (definedTests in Test).value )
 
-val rocketChipDir = file("target-rtl/firechip/rocket-chip")
-val fireChipDir  = file("target-rtl/firechip")
+val rocketChipDir = file("target-rtl/firechip-msyksphinz/rocket-chip")
+val fireChipDir  = file("target-rtl/firechip-msyksphinz")
 
 // Subproject definitions begin
 // NB: FIRRTL dependency is unmanaged (and dropped in sim/lib)
@@ -67,6 +67,10 @@ lazy val icenet     = (project in fireChipDir / "icenet")
   .settings(commonSettings)
   .dependsOn(rocketchip, testchipip)
 
+lazy val example    = (project in fireChipDir / "src/main/scala/example")
+  .settings(commonSettings)
+  .dependsOn(rocketchip, testchipip, icenet)
+
 // MIDAS-specific dependencies
 lazy val mdf        = RootProject(file("barstools/mdf/scalalib"))
 lazy val barstools  = (project in file("barstools/macros"))
@@ -79,4 +83,4 @@ lazy val midas      = (project in file("midas"))
 // Finally the root project
 lazy val firesim    = (project in file("."))
   .settings(commonSettings)
-  .dependsOn(rocketchip, midas, boom, icenet, sifiveip)
+  .dependsOn(rocketchip, midas, boom, icenet, sifiveip, example)
