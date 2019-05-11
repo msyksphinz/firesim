@@ -1,0 +1,17 @@
+{
+  "benchmark_name" : "matrixmul",
+  "common_rootfs" : "dummy.ext2",
+  "deliver_dir" : "matrixmul",
+  "common_args" : ["--copies 1"],
+  "common_files" : ["intrate.sh"],
+  "common_outputs" : ["/output"],
+  "common_simulation_outputs" : ["uartlog"],
+  "workloads" : [
+    {
+      "name": "matrixmul.riscv",
+      "bootbinary" : "matrixmul.riscv",
+      "simulation_outputs": [],
+      "outputs": []
+    }
+  ]
+}
